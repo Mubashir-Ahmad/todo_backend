@@ -17,9 +17,17 @@ app.use(cors()) // Enable CORS
 app.use(cookieParser());
 app.use(express.json());
 
+// CORS middleware
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+  }));
 
-
-
+app.get('/', (req, res) => {
+    res.send('Hello, this is the root endpoint!');
+  });
 // Routes  
 app.use("/api/users", userRoute)
 app.use("/api/todo", todoRoute)
