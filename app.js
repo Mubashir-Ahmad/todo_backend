@@ -16,7 +16,7 @@ app.use(bodyParser.json({ limit: '50mb' }));// Parse JSON bodies
 app.use(cors()) // Enable CORS
 app.use(cookieParser());
 app.use(express.json());
-
+DBconnect(DATABASE_URL);
 // CORS middleware
 app.use(cors({
     origin: '*',
@@ -31,15 +31,7 @@ app.get('/', (req, res) => {
 // Routes  
 app.use("/api/users", userRoute)
 app.use("/api/todo", todoRoute)
-const port = process.env.PORT || 3000;
-const start = async () => {
-    try {
-        await DBconnect(DATABASE_URL);
-        app.listen(port, () =>
-            console.log(`Server is Listening on http://localhost:${port}`))
-    } catch (error) {
-        console.log('Error starting server:', error);
-    }
-}
-
-start();
+app.listen(process.env.PORT, () => {
+    console.log(`Server running at ${process.env.PORT}`);
+    console.log(`MongoDB server running at ${DATABASE_URL}`);
+  });
